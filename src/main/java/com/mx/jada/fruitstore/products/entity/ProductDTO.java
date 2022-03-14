@@ -9,9 +9,15 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="product")
@@ -31,22 +37,26 @@ public class ProductDTO implements Serializable {
 	private int enable;
 	
 	@Column(name = "create_init")
+	@DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
 	private Date createInit;
 	
 	private String createusername;
 
 	
-	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "products")
-	private Detail details;
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@JoinColumn(name="id_detail")
+	@JsonManagedReference
+	private Detail detail;
 	
 	
 	public ProductDTO() {
-		details=(new Detail());
+		detail=(new Detail());
 	}
 	
 	@PrePersist
 	public void prePersist() {
 		createInit = new Date();
+		
 	}
 	
 	
@@ -76,11 +86,11 @@ public class ProductDTO implements Serializable {
 	}
 
 	public Detail getDetail() {
-		return details;
+		return detail;
 	}
 
 	public void setDetail(Detail detail) {
-		this.details = detail;
+		this.detail = detail;
 	}
 
 	

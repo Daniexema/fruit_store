@@ -2,7 +2,6 @@ package com.mx.jada.fruitstore.service;
 
 import java.util.List;
 
-import com.mx.jada.fruitstore.products.entity.Detail;
 import com.mx.jada.fruitstore.products.entity.ProductDTO;
 
 public interface ProductService {
@@ -15,6 +14,5 @@ public interface ProductService {
 	
 	public ProductDTO findById(Long id);
 	
-	public Detail saveDetailById(Long id,Detail detal);
 
 }

@@ -1,4 +1,4 @@
-package com.mx.jada.fruitstore.dao;
+package com.mx.jada.fruitstore.product.dao;
 
 import org.springframework.data.repository.CrudRepository;
 
