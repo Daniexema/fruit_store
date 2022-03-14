@@ -46,17 +46,10 @@ public class ProductRestController {
 
 	}
 
+
 	@PostMapping("/products")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public ProductDTO create(@RequestBody ProductDTO product) {
-
-		return proService.save(product);
-
-	}
-	
-	@PostMapping("/prueba")
-	@ResponseStatus(code = HttpStatus.CREATED)
-	public ProductDTO create2(@RequestBody ProductDTO product) {
 
 		ProductDTO actual = new ProductDTO();
 		Detail detailActual = new Detail();
@@ -64,9 +57,6 @@ public class ProductRestController {
 		actual=product;
 		
 		detailActual=actual.getDetail();
-		
-		//detailActual.setProducts(actual);
-		//actual.setDetail(detailActual);
 		
 		detailService.saveDetail(detailActual);
 		
