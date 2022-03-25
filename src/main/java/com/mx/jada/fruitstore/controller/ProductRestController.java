@@ -65,45 +65,20 @@ public class ProductRestController {
 	}
 	
 	
-	
-	
-	//CLASE DONDE EMPIEZO A AGREGAR EL DETALLE PARA RELACIONARLO
-	@PostMapping("/products/{id}/detail")
-	@ResponseStatus(code = HttpStatus.CREATED)
-	public Detail createWhitDetail(@PathVariable Long id, @RequestBody Detail detail) {
-
-		
-		ProductDTO actual = new ProductDTO();
-		actual = proService.findById(id);
-		
-		
-		Detail nuevoDetalle = new Detail(); 
-		nuevoDetalle=detail;
-		
-		actual.setDetail(nuevoDetalle);		
-		nuevoDetalle.setProducts(actual); 
-		
-			
-		return detailService.saveDetail(nuevoDetalle);
-
-
-	}	
-	
-	
-	
-	
-	
-	
 
 	@PutMapping("/products/{id}")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public ProductDTO upDate(@RequestBody ProductDTO product, @PathVariable Long id) {
 
 		ProductDTO actual = proService.findById(id);
-		actual.setDescri(product.getDescri());
-		actual.setName(product.getName());
-		actual.setCreateusername("default");
-
+				
+		Detail detailActual = product.getDetail();
+		
+		actual=product;
+		
+		
+		detailService.saveDetail(detailActual);
+		
 		return proService.save(actual);
 
 	}
