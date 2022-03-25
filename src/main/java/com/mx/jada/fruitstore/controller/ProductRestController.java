@@ -1,11 +1,15 @@
 package com.mx.jada.fruitstore.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,27 +44,68 @@ public class ProductRestController {
 	}
 
 	@GetMapping("/products/{id}")
-	public ProductDTO show(@PathVariable Long id) {
+	public ResponseEntity<?> show(@PathVariable Long id) {
+		
+		ProductDTO product = null;
+		
+		Map<String, Object>response = new HashMap<>();
+		
+		try {
+			product = proService.findById(id);
+		} catch (DataAccessException e) {
+			
+			response.put("mensaje", "Error en realizar consulta");
+			
+			response.put("error", e.getMostSpecificCause().getMessage());
+			
+			return new ResponseEntity<Map<String, Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		if (product==null) {
+			response.put("mensaje", "No se ha encontrado el recurso solicitado");
+			response.put("código", 404);
+			
+			return new ResponseEntity<Map<String, Object>>(response,HttpStatus.NOT_FOUND);
+		}
 
-		return proService.findById(id);
+		return new ResponseEntity<ProductDTO>(product,HttpStatus.OK);  //proService.findById(id);
 
 	}
 
 
 	@PostMapping("/products")
-	@ResponseStatus(code = HttpStatus.CREATED)
-	public ProductDTO create(@RequestBody ProductDTO product) {
+	public ResponseEntity<?> create(@RequestBody ProductDTO product) {
 
+		
 		ProductDTO actual = new ProductDTO();
 		Detail detailActual = new Detail();
 		
-		actual=product;
+		Map<String, Object>response = new HashMap<>();
 		
-		detailActual=actual.getDetail();
+		try {
+			
+				detailActual = detailService.saveDetail(product.getDetail());
 		
-		detailService.saveDetail(detailActual);
+				actual = proService.save(product);
+			
+		} catch (DataAccessException e) {
+
+			response.put("mensaje", "Error en realizar insert");
+			
+			response.put("error", e.getMostSpecificCause().getMessage());
+			
+			return new ResponseEntity<Map<String, Object>>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		
-		return proService.save(product);
+		
+		response.put("mensaje", "Producto creado correctamente");
+		
+		response.put("error", " ");
+		
+		response.put("producto", actual);
+		
+		
+		return new ResponseEntity<Map<String, Object>>(response,HttpStatus.CREATED);
 
 	}
 	

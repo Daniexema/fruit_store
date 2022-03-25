@@ -14,6 +14,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
+import org.springframework.data.relational.core.mapping.Embedded.Nullable;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -28,10 +29,12 @@ public class ProductDTO implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Column(nullable = false)
 	private String name;
 	
+	@Column(nullable = false)
 	private String descri;
-	
+	@Column(nullable = false)
 	private String img;
 	
 	private int enable;
