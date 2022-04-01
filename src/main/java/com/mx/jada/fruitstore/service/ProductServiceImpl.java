@@ -25,6 +25,12 @@ public class ProductServiceImpl implements ProductService{
 		return (List<ProductDTO>) productDao.findAll();
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<ProductDTO>findByNombre(String name){
+		
+		return productDao.findByName(name);
+	}
 
 	@Override
 	@Transactional

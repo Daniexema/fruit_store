@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -68,10 +69,37 @@ public class ProductRestController {
 			return new ResponseEntity<Map<String, Object>>(response,HttpStatus.NOT_FOUND);
 		}
 
-		return new ResponseEntity<ProductDTO>(product,HttpStatus.OK);  //proService.findById(id);
+		return new ResponseEntity<ProductDTO>(product,HttpStatus.OK);
 
 	}
 
+	@GetMapping(value="/loading/{name}",produces= {"application/json"})
+	@ResponseBody
+	public ResponseEntity<?>loadProducts(@PathVariable String name){
+		
+			Map<String, Object>response = new HashMap<>();
+			 List<ProductDTO> loadingProducts=null;
+		
+		 try {
+			loadingProducts =proService.findByNombre(name);
+			 
+		} catch (DataAccessException e) {
+			
+			response.put("mensaje", "Error en realizar consulta");
+			response.put("error", e.getMostSpecificCause().getMessage());
+			
+		}
+			if (loadingProducts.isEmpty()) {
+				response.put("mensaje", "Parece que no encontramos lo que solicitaste");
+				response.put("código", 200);
+				
+				return new ResponseEntity<Map<String, Object>>(response,HttpStatus.OK);
+			}		 
+			
+			return new ResponseEntity<List<ProductDTO>>(loadingProducts,HttpStatus.OK); 
+			
+	}
+	
 
 	@PostMapping("/products")
 	public ResponseEntity<?> create(@RequestBody ProductDTO product) {

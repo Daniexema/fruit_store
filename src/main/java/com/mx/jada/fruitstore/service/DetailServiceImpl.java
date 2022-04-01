@@ -5,7 +5,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mx.jada.fruitstore.product.dao.DetailDAO;
+import com.mx.jada.fruitstore.product.dao.IDetailDAO;
 import com.mx.jada.fruitstore.products.entity.Detail;
 
 
@@ -13,7 +13,7 @@ import com.mx.jada.fruitstore.products.entity.Detail;
 public class DetailServiceImpl implements DetailService{
 
 	@Autowired
-	DetailDAO detailDao;
+	IDetailDAO detailDao;
 	
 	
 	@Override

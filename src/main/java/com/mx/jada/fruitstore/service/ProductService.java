@@ -14,5 +14,6 @@ public interface ProductService {
 	
 	public ProductDTO findById(Long id);
 	
+	public List<ProductDTO>findByNombre(String name);
 
 }

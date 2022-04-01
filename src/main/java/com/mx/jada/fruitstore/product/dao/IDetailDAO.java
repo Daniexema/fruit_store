@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.mx.jada.fruitstore.products.entity.Detail;
 
-public interface DetailDAO extends CrudRepository<Detail, Long>{
+public interface IDetailDAO extends CrudRepository<Detail, Long>{
 
 }
