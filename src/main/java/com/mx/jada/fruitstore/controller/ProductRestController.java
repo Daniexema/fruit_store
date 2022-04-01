@@ -73,7 +73,7 @@ public class ProductRestController {
 
 	}
 
-	@GetMapping(value="/loading/{name}",produces= {"application/json"})
+	@GetMapping(value="/loading/{name}")
 	@ResponseBody
 	public ResponseEntity<?>loadProducts(@PathVariable String name){
 		
@@ -91,9 +91,9 @@ public class ProductRestController {
 		}
 			if (loadingProducts.isEmpty()) {
 				response.put("mensaje", "Parece que no encontramos lo que solicitaste");
-				response.put("código", 200);
+				response.put("código", 404);
 				
-				return new ResponseEntity<Map<String, Object>>(response,HttpStatus.OK);
+				return new ResponseEntity<Map<String, Object>>(response,HttpStatus.NOT_FOUND);
 			}		 
 			
 			return new ResponseEntity<List<ProductDTO>>(loadingProducts,HttpStatus.OK); 
