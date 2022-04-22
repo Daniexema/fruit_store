@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,12 +27,12 @@ import com.mx.jada.fruitstore.products.entity.ProductDTO;
 import com.mx.jada.fruitstore.service.DetailService;
 import com.mx.jada.fruitstore.service.ProductService;
 
-@CrossOrigin(origins = { "http://localhost:4200" })
+@CrossOrigin(origins = { "*" })
 @RestController
 @RequestMapping("/api")
 public class ProductRestController {
 
-	@Autowired
+	@Autowired(required=true)
 	ProductService proService;
 
 	@Autowired
@@ -43,6 +44,7 @@ public class ProductRestController {
 		return proService.findAll();
 	}
 	
+	@Secured("ADMIN")
 	@GetMapping("/products/page/{page}")
 	public Page<ProductDTO> products(@PathVariable Integer page) {
 

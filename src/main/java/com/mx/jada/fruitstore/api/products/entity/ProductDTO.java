@@ -136,6 +136,21 @@ public class ProductDTO implements Serializable {
 		this.createusername = createusername;
 	}
 
+	public ProductDTO(Long id, String name, String descri, String img, int enable, Date createInit,
+			String createusername, Detail detail) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.descri = descri;
+		this.img = img;
+		this.enable = enable;
+		this.createInit = createInit;
+		this.createusername = createusername;
+		this.detail = detail;
+	}
+
+
+
 
 	private static final long serialVersionUID = 1L;
 }
